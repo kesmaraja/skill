@@ -1,0 +1,136 @@
+import java.util.*;
+
+public class MarsColonyLastSignal {
+
+    static Scanner sc = new Scanner(System.in);
+
+    static int oxygen = 100;
+    static int power = 100;
+    static int trust = 50;
+    static int sanity = 100;
+    static boolean signalDecoded = false;
+
+    public static void main(String[] args) {
+
+        System.out.println("===================================");
+        System.out.println("      🚀 MARS COLONY: LAST SIGNAL");
+        System.out.println("===================================\n");
+
+        System.out.print("Enter Commander Name: ");
+        String name = sc.nextLine();
+
+        System.out.println("\nCommander " + name + ", a strange signal has been detected outside the colony.");
+        System.out.println("Your decisions will determine humanity's future.\n");
+
+        gameLoop();
+
+        ending(name);
+    }
+
+    static void gameLoop() {
+
+        while (oxygen > 0 && power > 0 && sanity > 0 && !signalDecoded) {
+
+            System.out.println("\nSTATUS → Oxygen: " + oxygen +
+                               " | Power: " + power +
+                               " | Trust: " + trust +
+                               " | Sanity: " + sanity);
+
+            System.out.println("\nChoose an action:");
+            System.out.println("1. Send team outside to investigate");
+            System.out.println("2. Analyze signal from control room");
+            System.out.println("3. Calm crew meeting");
+            System.out.println("4. Ration supplies");
+            System.out.println("5. Ignore signal");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    sendTeam();
+                    break;
+                case 2:
+                    analyzeSignal();
+                    break;
+                case 3:
+                    crewMeeting();
+                    break;
+                case 4:
+                    rationSupplies();
+                    break;
+                case 5:
+                    ignoreSignal();
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    static void sendTeam() {
+        oxygen -= 20;
+        power -= 10;
+
+        Random rand = new Random();
+        if (rand.nextBoolean()) {
+            System.out.println("The team found alien tech fragments.");
+            signalDecoded = true;
+        } else {
+            System.out.println("A dust storm damaged equipment.");
+            trust -= 10;
+            sanity -= 10;
+        }
+    }
+
+    static void analyzeSignal() {
+        power -= 20;
+        sanity -= 5;
+
+        if (trust > 60) {
+            System.out.println("With crew support, you partially decode the signal.");
+            signalDecoded = true;
+        } else {
+            System.out.println("Data corrupted. More cooperation needed.");
+        }
+    }
+
+    static void crewMeeting() {
+        trust += 15;
+        sanity += 5;
+        power -= 5;
+        System.out.println("Crew morale improved.");
+    }
+
+    static void rationSupplies() {
+        oxygen += 10;
+        trust -= 10;
+        System.out.println("Supplies saved, but crew unhappy.");
+    }
+
+    static void ignoreSignal() {
+        sanity -= 20;
+        trust -= 5;
+        System.out.println("The unknown weighs heavily on everyone.");
+    }
+
+    static void ending(String name) {
+
+        System.out.println("\n========== FINAL OUTCOME ==========");
+
+        if (oxygen <= 0)
+            System.out.println("Colony suffocated. Mission failed.");
+
+        else if (power <= 0)
+            System.out.println("Power failure. Systems offline.");
+
+        else if (sanity <= 0)
+            System.out.println("Psychological breakdown. Command lost.");
+
+        else if (signalDecoded)
+            System.out.println("You discovered alien intelligence. Humanity evolves.\nCongratulations Commander " + name + "!");
+
+        else
+            System.out.println("The mystery remains unsolved.");
+    }
+}
