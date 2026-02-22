@@ -1,0 +1,155 @@
+import java.util.*;
+
+public class ShadowsOfBlackwood {
+
+    static Scanner sc = new Scanner(System.in);
+    static int clues = 0;
+    static int energy = 100;
+    static boolean knifeFound = false;
+    static boolean footprintFound = false;
+    static boolean documentFound = false;
+
+    public static void main(String[] args) {
+
+        System.out.println("========================================");
+        System.out.println("     🕵️ SHADOWS OF BLACKWOOD");
+        System.out.println("========================================\n");
+
+        System.out.print("Enter your detective name: ");
+        String name = sc.nextLine();
+
+        System.out.println("\nWelcome Detective " + name + ".");
+        System.out.println("A murder has occurred at Blackwood Mansion.");
+        System.out.println("You have limited energy. Use it wisely.\n");
+
+        gameLoop();
+
+        finalDecision(name);
+    }
+
+    static void gameLoop() {
+
+        while (energy > 0 && clues < 3) {
+
+            System.out.println("\nEnergy: " + energy + " | Clues Found: " + clues);
+            System.out.println("Choose an action:");
+            System.out.println("1. Investigate Kitchen");
+            System.out.println("2. Investigate Garden");
+            System.out.println("3. Investigate Study Room");
+            System.out.println("4. Interrogate Suspect");
+            System.out.println("5. Rest (-10 energy, +20 energy gain chance)");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    investigateKitchen();
+                    break;
+                case 2:
+                    investigateGarden();
+                    break;
+                case 3:
+                    investigateStudy();
+                    break;
+                case 4:
+                    interrogate();
+                    break;
+                case 5:
+                    rest();
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+
+        if (energy <= 0) {
+            System.out.println("\nYou collapsed from exhaustion...");
+            System.out.println("The case remains unsolved.");
+            System.exit(0);
+        }
+    }
+
+    static void investigateKitchen() {
+        energy -= 15;
+        if (!knifeFound) {
+            System.out.println("You found a bloody knife!");
+            knifeFound = true;
+            clues++;
+        } else {
+            System.out.println("Nothing new here.");
+        }
+    }
+
+    static void investigateGarden() {
+        energy -= 15;
+        if (!footprintFound) {
+            System.out.println("You discovered fresh footprints.");
+            footprintFound = true;
+            clues++;
+        } else {
+            System.out.println("The garden is quiet.");
+        }
+    }
+
+    static void investigateStudy() {
+        energy -= 20;
+        if (!documentFound) {
+            System.out.println("You found a torn will document.");
+            documentFound = true;
+            clues++;
+        } else {
+            System.out.println("Only dusty books remain.");
+        }
+    }
+
+    static void interrogate() {
+        energy -= 10;
+
+        System.out.println("\nWho do you want to interrogate?");
+        System.out.println("1. Butler");
+        System.out.println("2. Chef");
+        System.out.println("3. Gardener");
+
+        int suspect = sc.nextInt();
+
+        if (suspect == 2 && knifeFound) {
+            System.out.println("The Chef seems nervous...");
+            clues++;
+        } else {
+            System.out.println("They deny everything.");
+        }
+    }
+
+    static void rest() {
+        energy -= 10;
+        Random rand = new Random();
+        if (rand.nextBoolean()) {
+            energy += 20;
+            System.out.println("You feel refreshed.");
+        } else {
+            System.out.println("Rest was interrupted.");
+        }
+    }
+
+    static void finalDecision(String name) {
+
+        System.out.println("\nYou gathered enough clues.");
+        System.out.println("Who is the murderer?");
+        System.out.println("1. Butler");
+        System.out.println("2. Chef");
+        System.out.println("3. Gardener");
+
+        int accuse = sc.nextInt();
+
+        if (accuse == 2 && knifeFound && documentFound) {
+            System.out.println("\nCorrect! The Chef is guilty.");
+            System.out.println("Motive: Inheritance dispute.");
+            System.out.println("Excellent work, Detective " + name + "!");
+        } else {
+            System.out.println("\nWrong accusation...");
+            System.out.println("The real murderer escapes justice.");
+            System.out.println("Better luck next time, Detective " + name + ".");
+        }
+    }
+}
