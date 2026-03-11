@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+class Codechef {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt();
+        
+        for (int t = 0; t < T; t++) {
+            int N = scanner.nextInt();
+            int X = scanner.nextInt();
+            
+            int totalSlicesNeeded = N * X;
+            int pizzasNeeded = (totalSlicesNeeded + 3) / 4; // Using integer division to round up
+            
+            System.out.println(pizzasNeeded);
+        }
+        
+        scanner.close();
+    }
+}
