@@ -1,0 +1,31 @@
+class Solution {
+    public long sumDigitDifferences(int[] nums) {
+        long totalDifference = 0;
+        int n = nums.length;
+        String s = String.valueOf(nums[0]);
+        int numDigits = s.length();
+        
+        int[][] counts = new int[numDigits][10];
+        
+        for (int num : nums) {
+            int pos = 0;
+            while (num > 0) {
+                counts[pos][num % 10]++;
+                num /= 10;
+                pos++;
+            }
+        }
+        
+        long totalPairsPerPos = (long) n * (n - 1) / 2;
+        
+        for (int i = 0; i < numDigits; i++) {
+            long samePairs = 0;
+            for (int d = 0; d < 10; d++) {
+                samePairs += (long) counts[i][d] * (counts[i][d] - 1) / 2;
+            }
+            totalDifference += (totalPairsPerPos - samePairs);
+        }
+        
+        return totalDifference;
+    }
+}
