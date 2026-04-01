@@ -1,0 +1,28 @@
+import java.util.*;
+
+class Solution {
+    private Map<String, Integer> memo;
+
+    public int waysToReachStair(int k) {
+        memo = new HashMap<>();
+        return solve(1, 0, false, k);
+    }
+
+    private int solve(int curr, int jump, boolean lastWasDown, int k) {
+        if (curr > k + 5) return 0;
+
+        String key = curr + "," + jump + "," + lastWasDown;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        int count = (curr == k) ? 1 : 0;
+
+        if (!lastWasDown && curr > 0) {
+            count += solve(curr - 1, jump, true, k);
+        }
+
+        count += solve(curr + (1 << jump), jump + 1, false, k);
+
+        memo.put(key, count);
+        return count;
+    }
+}
